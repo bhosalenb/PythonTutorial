@@ -105,7 +105,6 @@ print(tuple1[2:4]) # 30,40
 # tuple1[0]=1000; error
 
 #del tuple1[0]
-
 del tuple1 # successful
 
 tuple1=(1,2,3,4,5)
