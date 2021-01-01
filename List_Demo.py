@@ -93,3 +93,23 @@ list1=[11,2,1,3,1,3,1]
 print(list1.count(1))
 
 print(list1.index(1))
+
+# Tuples
+# immutable
+
+tuple1=(10,20,30,40,50)
+print(tuple1)
+print(tuple1[0]) # 10
+print(tuple1[2:4]) # 30,40
+
+# tuple1[0]=1000; error
+
+#del tuple1[0]
+
+del tuple1 # successful
+
+tuple1=(1,2,3,4,5)
+# use cases
+# gender =("M","F","O")
+tuple2=(1,"M",77)
+print(tuple2)
