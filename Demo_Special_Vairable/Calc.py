@@ -10,6 +10,9 @@ def mult():
 def div():
     print("Division of 2 nums")
 
-
-add()
+if __name__ == '__main__':
+    add()
+    sub()
+    mult()
+    div()
 
