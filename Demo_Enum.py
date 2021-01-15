@@ -1,4 +1,7 @@
+
 from enum import Enum
+class A:
+    pass
 
 class countries(Enum):
     INDIA = 1
@@ -7,6 +10,8 @@ class countries(Enum):
 
 #print(countries.INDIA)
 #print(countries(1))
+print(A)
+print(countries)
 
 for country in countries:
-    print(country)
+    print(country,country.value)
