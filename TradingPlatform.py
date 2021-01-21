@@ -47,7 +47,7 @@ def match(buy_list, sell_list):
                 sell_list.remove(j)
                 break
     else:
-        print("Match did not happened")
+        print("Match did not happened.")
 
 
 if __name__ == '__main__':
