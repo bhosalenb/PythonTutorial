@@ -49,6 +49,15 @@ def amend(buy_list, sell_list, oId,field,fldValue):
                 i.Qty=fldValue
             else:
                 print("Invalid Amend")
+def cancel(buy_list,sell_list,oId):
+    for i in orderList:
+        if i.ordId == oId and i.Side == 'B':
+            buy_list.remove(i)
+        elif i.ordId == oId and i.Side == 'S':
+            sell_list.remove(i)
+        else:
+            print("Invalid Cancel")
+
 
 def match(buy_list, sell_list):
     flag = 0
@@ -88,7 +97,9 @@ if __name__ == '__main__':
             field=Str[2]
             fldValue=Str[3]
             amend(buy_list,sell_list,ordId,field,fldValue)
-
+        elif Str[0] == 'X':
+            ordId = Str[1]
+            cancel(buy_list,sell_list,ordId)
         elif Str[0] == 'Q':
             query(buy_list, sell_list)
 
