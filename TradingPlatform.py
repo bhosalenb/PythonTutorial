@@ -15,9 +15,9 @@ class Order:
     def showBuy(self):
         if self.Side == 'B':
             print()
-        print(self.Sym,',',self.Side,',',self.Qty,',',self.Price,end='')
+        print(self.ordId,',',self.Sym,',',self.Side,',',self.Qty,',',self.Price,end='')
     def showSell(self):
-        print('--',self.Price,',',self.Qty,',',self.Side)
+        print('--',self.Price,',',self.Qty,',',self.Side,',',self.ordId)
 
 def query(buy_list, sell_list):
     #sorted_sell_list = sorted(sell_list, key=lambda x: x.)
@@ -50,13 +50,16 @@ def amend(buy_list, sell_list, oId,field,fldValue):
             else:
                 print("Invalid Amend")
 def cancel(buy_list,sell_list,oId):
+    orderList = buy_list+sell_list
     for i in orderList:
         if i.ordId == oId and i.Side == 'B':
             buy_list.remove(i)
+            break
         elif i.ordId == oId and i.Side == 'S':
             sell_list.remove(i)
-        else:
-            print("Invalid Cancel")
+            break
+    else:
+        print("Invalid Cancel")
 
 
 def match(buy_list, sell_list):
@@ -74,8 +77,13 @@ def match(buy_list, sell_list):
 
 if __name__ == '__main__':
     #n = int(input("Total no. of commands to enter:"))
-    print("This program supports action like: N(New), A(Amend), X(Cancel), M(Match) or Q(Query)")
-    print("New order Syntax: N,OrdId,SYM,Side,Price, Qty")
+    print("This program supports action like: N(New), A(Amend), X(Cancel), M(Match) or Q(Query. Use below Syntax for each actrion:)")
+    print("New order: N,OrdId,SYM,Side,Price, Qty")
+    print("Amend: A,Order ID,Field(P or Q), Field Value")
+    print("Cancel: X,Order ID")
+    print("Query: Q")
+    print("Match: M")
+
     buy_list = []
     sell_list = []
 
