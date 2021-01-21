@@ -91,10 +91,17 @@ if __name__ == '__main__':
         Str = input().upper().split(',')
 
         if Str[0] == 'N' and Str[3] == 'B':
+            flag1 =0
             if Str[2].isnumeric():
                 print('invalid Order')
             else:
-                buy_list.append(Order(Str))
+                for k in buy_list:
+                    if k.ordId == Str[1]:
+                        flag1 = 1
+                if flag1 == 0:
+                    buy_list.append(Order(Str))
+                else:
+                    print("Duplicate order Id")
         elif Str[0] == 'N' and Str[3] == 'S':
             if Str[2].isnumeric():
                 print('invalid Order')
