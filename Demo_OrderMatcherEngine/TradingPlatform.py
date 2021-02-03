@@ -1,3 +1,6 @@
+import json
+import logging
+
 class Order:
     def __init__(self,lst1):
         #N,1,TCS,S,32,108
@@ -9,9 +12,6 @@ class Order:
         self.Qty = lst1[4]
         self.Price = lst1[5]
 
-    def new(self):
-        print(type(self.Sym))
-
     def showBuy(self):
         if self.Side == 'B':
             print()
@@ -19,8 +19,29 @@ class Order:
     def showSell(self):
         print('--',self.Price,',',self.Qty,',',self.Side,',',self.ordId)
 
+def newOrder(Str):
+    Str = Str.upper().split(',')
+    if Str[2].isnumeric():
+        print('invalid Order')
+    else:         
+        if Str[3] == 'B':
+            flag1 = 0        
+            for k in buy_list:
+                if k.ordId == Str[1]:
+                    flag1 = 1
+            if flag1 == 0:
+                buy_list.append(Order(Str))
+            else:
+                logging.debug("Duplicate order Id")
+        elif Str[3] == 'S':
+            flag2 = 0
+            for k in sell_list:
+                if k.ordId == Str[1]:
+                    flag2 = 1
+            if flag2 == 0:
+                sell_list.append(Order(Str))
+
 def query(buy_list, sell_list):
-    #sorted_sell_list = sorted(sell_list, key=lambda x: x.)
 
     buy_list.sort(key=lambda x: x.Price, reverse=True)
     sell_list.sort(key=lambda x: x.Price)
@@ -67,13 +88,13 @@ def match(buy_list, sell_list):
     for i in buy_list:
         for j in sell_list:
             if i.Price == j.Price:
-                print("Order matching done")
+                print("Order matched successfully ")
                 flag = 1
                 buy_list.remove(i)
                 sell_list.remove(j)
                 break
     if flag == 0:
-        print("Match did not happened.")
+        print("There are no orders to match.")
 
 if __name__ == '__main__':
     #n = int(input("Total no. of commands to enter:"))
@@ -83,36 +104,30 @@ if __name__ == '__main__':
     print("Cancel: X,Order ID")
     print("Query: Q")
     print("Match: M")
-
+    logging.basicConfig(filename='Demo_OrderMatcherEngine/OrderMatcher.log',level=logging.DEBUG,format='%(asctime)s::%(levelname)s::%(message)s')
     buy_list = []
     sell_list = []
 
     while True:
-        Str = input().upper().split(',')
+        Str = input()
 
-        if Str[0] == 'N' and Str[3] == 'B':
-            flag1 =0
-            if Str[2].isnumeric():
-                print('invalid Order')
-            else:
-                for k in buy_list:
-                    if k.ordId == Str[1]:
-                        flag1 = 1
-                if flag1 == 0:
-                    buy_list.append(Order(Str))
-                else:
-                    print("Duplicate order Id")
-        elif Str[0] == 'N' and Str[3] == 'S':
-            if Str[2].isnumeric():
-                print('invalid Order')
-            else:
-                sell_list.append(Order(Str))
+        if Str[0] == 'N':
+            newOrder(Str)
+        elif Str[0] == 'U':
+            with open("../Orders_List.json", 'r') as fr:
+                data_dict = json.load(fr)
+                for i in data_dict['Orders']:
+                    str1 = i['Command']+','+str(i['Ord_ID'])+','+i['Symbol']+','+i['Side']+','+str(i['Qty'])+','+str(i['Price'])
+                    newOrder(str1)
+
         elif Str[0] == 'A':
+            Str = Str.upper().split(',')
             ordId=Str[1]
             field=Str[2]
             fldValue=Str[3]
             amend(buy_list,sell_list,ordId,field,fldValue)
         elif Str[0] == 'X':
+            Str = Str.upper().split(',')
             ordId = Str[1]
             cancel(buy_list,sell_list,ordId)
         elif Str[0] == 'Q':
