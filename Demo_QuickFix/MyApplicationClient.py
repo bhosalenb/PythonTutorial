@@ -33,29 +33,12 @@ class MyApplication(quickfix.Application):
         #msg = message.toString().replace(__SOH__, "|")
 
     def fromApp(self,message,sessionID):
-        beginString = quickfix.BeginString()
-        msgType = quickfix.MsgType()
-
-        message.getHeader().getField(beginString)
-        message.getHeader().getField(msgType)
-
-        symbol = quickfix.Symbol()
-        side = quickfix.Side()
-        ordType = quickfix.OrdType()
-        orderQty = quickfix.OrderQty()
-        price = quickfix.Price()
-        clOrdID = quickfix.ClOrdID()
-        message.getField(ordType)
-        print("Order Type: ", ordType)
-        print("Received Application message: ")
-        #msg = message.toString().replace(__SOH__, "|")
+        print("Received msg from server: ", message.toString())
 
     def run(self):
         while 1:
             time.sleep(2)
     def send_order(self):
-        print("Creating the following order: ")
-
         order = quickfix.Message()
 
         #order.getHeader().setField(quickfix.BeginString(quickfix.BeginString_FIX42))
@@ -67,9 +50,7 @@ class MyApplication(quickfix.Application):
         order.setField(quickfix.Side(quickfix.Side_BUY))
         order.setField(quickfix.TransactTime())
         order.setField(quickfix.OrderQty(1001))
-        order.setField(quickfix.OrdType(1))
-
-        print(order.toString())
-        print(self.sessionID)
+        order.setField(quickfix.OrdType(quickfix.OrdType_MARKET))
 
         quickfix.Session.sendToTarget(order, self.sessionID)
+        print("New Order sent to server: ", order.toString())

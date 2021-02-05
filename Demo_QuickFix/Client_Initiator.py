@@ -2,9 +2,9 @@ import quickfix
 import time
 import sys
 import quickfix42
-from Demo_QuickFix import MyApplication
+from Demo_QuickFix import MyApplicationClient
 settings = quickfix.SessionSettings('client.cfg')
-application = MyApplication.MyApplication()
+application = MyApplicationClient.MyApplication()
 storeFactory = quickfix.FileStoreFactory(settings)
 logFactory = quickfix.FileLogFactory(settings)
 
@@ -16,7 +16,6 @@ initiator.start()
 time.sleep(2)
 
 if input() == '1':
-    print("Sending order: ")
     application.send_order()
 if input() == '2':
     sys.exit(0)
