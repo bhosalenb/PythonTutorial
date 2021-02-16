@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 class Animal(ABC):
+    @abstractmethod
     def eat(self):
         None
 
@@ -13,6 +14,7 @@ class Goat(Animal):
         print("This animal is vegetarian")
 
 a = ABC()
+#a.eat()
 t = Tiger()
 t.eat()
 
